@@ -26,7 +26,7 @@ curl -i -k 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentia
 python call_unit.py
 ```
 
-注意运行前需要先将call_unit.py的access_token更改为自己的。
+注意运行前需要先将call_unit.py的access_token和技能id更改为自己的。
 
 返回结果如下：
 
