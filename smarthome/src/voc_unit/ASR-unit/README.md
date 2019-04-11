@@ -19,17 +19,17 @@
     `DEV_PID = 1537; #  1537 表示识别普通话，使用输入法模型。1536表示识别普通话，使用搜索模型`
 测试英语 修改为:
     `DEV_PID = 1737;`
-'''
+```
 #需要识别的文件
 AUDIO_FILE = "./16k.pcm";
 #文件格式
 FORMAT = "pcm"; # 文件后缀 pcm/wav/amr
-'''
+```
 测试收费极速版：
 打开下面的注释
-'''
+```
 #收费极速版 DEVPID = 80001 ASRURL = 'https://vop.baidu.com/pro_api' SCOPE = 'brainenhancedasr' # 有此scope表示有收费极速版能力，没有请在网页里开通极速版
-'''
+```
 
 # 基于unit的语义识别部分 #
 ## 训练一个unit技能 ##
