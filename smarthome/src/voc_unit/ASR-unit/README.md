@@ -12,7 +12,7 @@
 
 该系统目前只支持中文普通话和英文。语音格式只支持：pcm（不压缩）、wav（不压缩，pcm编码）、amr（压缩格式）。推荐pcm 采样率 ：16000 固定值。编码：16bit位深的单声道。但是任意操作系统，任意编程语言，只要可以对百度语音服务器发起http请求的，均可以使用本接口。
 
-关于语音识别极速版API的更多信息，可以查看百度的官方文档[http://ai.baidu.com/docs#/ASR-API-PRO/top](http://http://ai.baidu.com/docs#/ASR-API-PRO/top "语音识别极速版API")。
+关于语音识别极速版API的更多信息，可以查看百度的官方文档[http://ai.baidu.com/docs#/ASR-API-PRO/top](http://ai.baidu.com/docs#/ASR-API-PRO/top "语音识别极速版API")。
 
 ## 你可能需要修改的部分： ##
 ### 根据文档填写PID，选择语言及识别模型 ###
