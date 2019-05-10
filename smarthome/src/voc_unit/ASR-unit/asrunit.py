@@ -7,7 +7,46 @@ import time
 import urllib, urllib2
 import sys
 
+##################################
+import pyaudio
+import wave
 
+CHUNK = 1024
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 16000
+RECORD_SECONDS = 5
+WAVE_OUTPUT_FILENAME = "turnon.wav"
+
+p = pyaudio.PyAudio()
+
+stream = p.open(format=FORMAT,
+                channels=CHANNELS,
+                rate=RATE,
+                input=True,
+                frames_per_buffer=CHUNK)
+
+print("* recording")
+
+frames = []
+
+for i in range(0, int(RATE / CHUNK * RECORD_SECONDS)):
+    data = stream.read(CHUNK)
+    frames.append(data)
+
+print"* done recording"
+
+stream.stop_stream()
+stream.close()
+p.terminate()
+
+wf = wave.open(WAVE_OUTPUT_FILENAME, 'wb')
+wf.setnchannels(CHANNELS)
+wf.setsampwidth(p.get_sample_size(FORMAT))
+wf.setframerate(RATE)
+wf.writeframes(b''.join(frames))
+wf.close()
+##################################
 IS_PY3 = sys.version_info.major == 3
 
 if IS_PY3:
@@ -31,7 +70,8 @@ API_KEY = 'kVcnfD9iW2XVZSMaLMrtLYIz'
 SECRET_KEY = 'O9o1O213UgG5LFn0bDGNtoRN3VWl2du6'
 
 # 需要识别的文件
-AUDIO_FILE = './pcm/turnon.wav'  # 只支持 pcm/wav/amr
+# AUDIO_FILE = './pcm/turnon.wav'  # 只支持 pcm/wav/amr
+AUDIO_FILE = 'turnon.wav'  # 只支持 pcm/wav/amr
 # 文件格式
 FORMAT = AUDIO_FILE[-3:]  # 文件后缀只支持 pcm/wav/amr
 
