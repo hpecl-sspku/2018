@@ -6,4 +6,4 @@ control：存放控制部分代码
 
 web_ui：存放webUI部分的代码
 
-api_server: 对接api的代码
+api_server: 集成所用 flask api的代码
