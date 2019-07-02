@@ -1,0 +1,74 @@
+<CTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- 静态资源没解决，调用网络资源 -->
+<script src="http://cdn.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
+<title>空气质量</title>
+</head>
+<body>
+
+<div id="container"></div>
+<script>
+	$(function () {
+		$('#container').highcharts({
+			chart: {
+				type: 'line'
+			},
+			title: {
+				text: '过去一周空气质量变化'
+			},
+			xAxis: {
+				categories: {{ X|safe }},   
+				title: {
+					text: null
+				}
+			},
+			yAxis: {
+				min: 0,
+				title: {
+					text: '二氧化碳浓度(ppm)',
+					align: 'high'
+				},
+				labels: {
+					overflow: 'justify'
+				}
+			},
+			tooltip: {
+				valueSuffix: '(ppm)'
+			 },
+			plotOptions: {
+				bar: {
+					dataLabels: {
+						enabled: true,
+						allowOverlap: true
+				    }
+				}	
+			 },
+			legend: {
+				layout: 'vertical',
+				align: 'right',
+				verticalAlign: 'top',
+				x: -40,
+				y: 100,
+				floating: true,
+				borderWidth: 1,
+				backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+				shadow: true
+			},
+			credits: {
+				enabled: false
+			},
+			series: [{
+			name: '二氧化碳浓度',
+			data: {{ Y }}
+			}]
+		});
+	});
+</script>
+</body>
+</html>
+
+

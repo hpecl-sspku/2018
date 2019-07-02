@@ -1,0 +1,400 @@
+<!DOCTYPE HTML>
+{% load staticfiles %}
+<script language="JavaScript" type="text/javascript">
+	setInterval(function(){
+		$("#nodedata_content").load(location.href + " #nodedata_content>", "");
+		$("#commands_content").load(location.href + " #commands_content>", "");
+	}, 1000)
+</script>
+<html>
+<head>
+<title>HPECL智能家居</title>
+<!---css--->
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet" type='text/css' />
+<link href="{% static 'css/style.css' %}" rel='stylesheet' type='text/css' />
+<!---css--->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!---js--->
+<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<!---js--->
+<link href="{% static 'css/styles.css' %}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/component.css' %}" />
+<!--web-fonts-->
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Josefin+Sans:400,700italic,700,600italic,600,400italic,300italic,300,100italic,100' rel='stylesheet' type='text/css'>
+<!--//web-fonts-->
+<!--JS for animate-->
+	<link href="{% static 'css/animate.css' %}" rel="stylesheet" type="text/css" media="all">
+	<script src="{% static 'js/wow.min.js' %}"></script>
+		<script>
+			new WOW().init();
+		</script>
+	<!--//end-animate-->
+
+</head>
+<body>
+	<div class="header">
+		<div class="container">
+			<div class="heder-top">
+				<div class="logo wow fadeInDownBig animated animated" data-wow-delay="0.4s">
+					<h1><a href="index.html">welcome to smart home！</a></h1>
+					<p> 您可以点击最右侧查看历史数据</p>
+				</div>
+
+				<div class="nav-icon">
+					<a href="#" class="navicon"></a>
+						<div class="toggle">
+							<ul class="toggle-menu">
+								<li><a class="active" href="index.html">历史数据</a></li>
+								<li><a  href="{% url 'myhome:bar1' %}">温度</a></li>
+								<li><a  href="{% url 'myhome:bar2' %}">湿度</a></li>
+								<li><a  href="{% url 'myhome:bar3' %}">光照</a></li>
+								<li><a  href="{% url 'myhome:bar4' %}">二氧化碳</a></li>
+								<li><a  href="{% url 'myhome:bar5' %}">噪声</a></li>
+							</ul>
+						</div>
+					<script>
+					$('.navicon').on('click', function (e) {
+					  e.preventDefault();
+					  $(this).toggleClass('navicon--active');
+					  $('.toggle').toggleClass('toggle--active');
+					});
+					</script>
+				</div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="banner-text wow fadeInLeft animated animated" data-wow-delay="0.4s">
+				<h3>由此开启智能家居生活</h3>
+				<p>完善的功能住您居家更方便、放松、舒适 </p>
+			</div>
+		</div>
+	</div>
+	<!--header-->
+		<div class="content"> 
+			<div class="welcome-section" > 
+				<div class="container">
+					<h2> Welcome </h2>
+					<span>Our product offers you the better life</span>
+					<div class="welcome-grids" id="commands_content" >
+						<div class="col-md-4 wel-grid wow  animated animated" data-wow-delay="0.4s">
+								<img src="{% static 'images/w1.jpg' %}" class="img-responsive" alt=""/>
+							<div class="wel-text hvr-shutter-out-horizontal">
+								<div class="flip-effect right">
+									<div class="text-box">
+										<i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+											<h4>普通模式</h4>
+											<p>制 冷|制 热|送 风|除 湿|自 动</p>
+									</div>
+								<div class="info-box">
+							<div class="info-content">
+								{% if commands.intent == "AC1_COMMOD_SELECT" %}
+									{% if commands.slots == "0" %} <h4>制 冷</h4>
+									{% endif %}
+									{% if commands.slots == "1" %} <h4>制 热</h4>
+									{% endif %}
+									{% if commands.slots == "2" %} <h4>送 风</h4>
+									{% endif %}
+									{% if commands.slots == "3" %} <h4>自 动</h4>
+									{% endif %}
+									{% if commands.slots == "4" %} <h4>除 湿</h4>
+									{% endif %}
+								{% else %} <h4>自 动</h4>
+								{% endif %}
+							</div>
+								</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="col-md-4 wel-grid wow animated animated" data-wow-delay="0.4s">
+							<div class="wel-text hvr-shutter-out-horizontal">
+								<div class="flip-effect right">
+									<div class="text-box">
+										<i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+											<h4>空调状态</h4>
+											<p>开启|关闭|睡眠|定时|风速|温度调节</p>
+									</div>
+								<div class="info-box">
+							<div class="info-content">
+								{% if commands.intent == "AC1_OC_OPEN" %} <h4>空调开启</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_OC_CLOSE" %} <h4>空调关闭</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_SLEEP_OPEN" %} <h4>开启睡眠状态</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_SLEEP_CLOSE" %} <h4>关闭睡眠状态</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_TEMP_DOWN" %} <h4>温度降低1度</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_TEMP_UP" %} <h4>温度升高1度</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_TEMP_TO" %}
+									 <h4>温度设为 {{ commands.slots }} 度</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_TIMER_CLOSE" %} <h4>关闭定时状态</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_TIMER_SET" %} 
+								     <h4>定时设为 {{ commands.slots }} 小时</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_WSPEED_DOWN" %} <h4>风速降低一档</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_WSPEED_UP" %} <h4>风速升高一档</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_WSPEED_TO" %} 
+									{% if commands.slots == "0" %} <h4>风速状态设为 高</h4>
+									{% endif %}
+									{% if commands.slots == "1" %} <h4>风速状态设为 中</h4>
+									{% endif %}
+									{% if commands.slots == "2" %} <h4>风速状态设为 低</h4>
+									{% endif %}
+									{% if commands.slots == "3" %} <h4>风速状态设为 自动</h4>
+									{% endif %}
+								{% endif %}
+								{% if commands.intent == "AC1_SMARTMOD_SELECT" %}
+										<h4>空调开启</h4>
+								{% endif %}
+								{% if commands.intent == "AC1_COMMOD_SELECT" %}
+										<h4>空调开启</h4>
+								{% endif %}
+                               
+							</div>
+								</div>
+								</div>
+							</div>
+							<img src="{% static 'images/w1.jpg' %}" class="img-responsive" alt=""/>
+						</div>
+
+						<div class="col-md-4 wel-grid wow animated animated" data-wow-delay="0.4s">
+							<img src="{% static 'images/w3.jpg' %}" class="img-responsive" alt=""/>
+							<div class="wel-text hvr-shutter-out-horizontal">
+								<div class="flip-effect right">
+									<div class="text-box">
+										<i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+										    <h4>智能模式</h4>
+											<p>环保模式|平衡模式|极致模式</p>
+										</div>
+								<div class="info-box">
+							<div class="info-content">
+								{% if commands.intent == "AC1_SMARTMOD_SELECT" %}
+									{% if commands.slots == "0" %} <h4>平 衡</h4>
+									{% endif %}
+									{% if commands.slots == "1" %} <h4>环 保</h4>
+									{% endif %}
+									{% if commands.slots == "2" %} <h4>极 致</h4>
+									{% endif %}
+								{% else %} <h4>平 衡</h4>
+								{% endif %}
+							</div>
+								</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			
+			
+							
+			<div class="services wow bounceIn animated" data-wow-delay="0.4s" style="visibility: visible; -webkit-animation-delay: 0.4s;">
+				<div class="col-md-4 services-grids">
+					<div class="flip-effect right">
+							<i class="glyphicon glyphicon-user" aria-hidden="true"></i>
+							<h5><button class="btn1" > 开启空调</button></h5>			
+					</div>
+				</div>
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+						
+							<i class="glyphicon glyphicon-bell" aria-hidden="true"></i>
+							<h5><button class="btn2" > 关闭空调</button></h5>	
+					</div>
+				</div>
+
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+							<i class="glyphicon glyphicon-wrench" aria-hidden="true"></i>
+							<h5><button class="btn3" > 普通模式</button></h5>
+					</div>
+				</div>
+
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+							<i class="glyphicon glyphicon-lock" aria-hidden="true"></i>
+							<h5><button class="btn4" > 自动模式</button></h5>
+					</div>
+				</div>
+
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+							<i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i>
+							<h5><button class="btn5" > 制冷模式</button></h5>
+					</div>
+				</div>
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+					
+							<i class="glyphicon glyphicon-home"></i>
+							<h5><button class="btn6" > 制热模式</button></h5>
+					</div>
+				</div>
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+					
+							<i class="glyphicon glyphicon-home"></i>
+							<h5><button class="btn7" > 开启音响</button></h5>
+					</div>
+				</div>
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+					
+							<i class="glyphicon glyphicon-home"></i>
+							<h5><button class="btn8" > 关闭音响</button></h5>
+					</div>
+				</div>
+
+				<div class="clearfix"> </div>
+			</div>
+			<script>
+				   $('.btn1').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':1,},})
+					})
+					$('.btn2').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':2,},})
+					})
+					$('.btn3').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':3,},})
+					})
+					$('.btn4').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':4,},})
+					})
+					$('.btn5').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':5,},})
+					})
+					$('.btn6').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':6,},})
+					})
+					$('.btn7').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':7,},})
+					})
+					$('.btn8').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':8,},})
+					})
+			</script>
+			
+			
+			<div class="capabilities" >
+				<div class="container">
+					<h3>实时数据</h3>
+					<div class="capabil-grids" id = "nodedata_content" >
+						<div class="col-md-3 capabil-grid wow  animated animated" data-wow-delay="0.4s">
+							<div class="cap">
+								<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='57000' data-delay='.5' data-increment="100">{{ nodedata.temperature}}</div>
+							</div>
+							<h5>温度/℃</h5>
+						</div>
+						<div class="col-md-3 capabil-grid wow  animated animated" data-wow-delay="0.4s">
+							<div class="cap">
+								<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='1700' data-delay='.5' data-increment="5">{{ nodedata.humidity }}</div>
+							</div>
+							<h5>湿度/%rh</h5>
+						</div>
+						<div class="col-md-3 capabil-grid wow  animated animated" data-wow-delay="0.4s">
+							<div class="cap">
+								<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='90000' data-delay='.5' data-increment="100">{{ nodedata.light }}</div>
+							</div>
+							<h5>光照/Lux</h5>
+						</div>
+						<div class="col-md-3 capabil-grid wow  animated animated" data-wow-delay="0.4s">
+							<div class="cap">
+								<div class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='250' data-delay='.5' data-increment="1">{{ nodedata.co2_simulation }}</div>
+							</div>
+							<h5>二氧化碳/ppm</h5>
+						</div>
+						<div class="col-md-3 capabil-grid wow  animated animated" data-wow-delay="0.4s">
+							<div class="cap">
+								<div id="nodedata" class='numscroller numscroller-big-bottom' data-slno='1' data-min='0' data-max='250' data-delay='.5' data-increment="1">{{ nodedata.noise }}</div>
+							</div>
+							<h5>声音/db</h5>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<div class="testimonial">
+				<div class="container">
+					<div class="testimonial-grids">
+						<div class="col-md-4 testimonial-grid wow fadeInLeft animated animated" data-wow-delay="0.4s">
+							<h3>简介</h3>
+							<div class="testimonial-info">
+								<p><span>"</span>智能空间门户(英文全称为Smart Space Portal)，是由北京大学软件与微电子学院（SSPKU）高性能计算嵌入式实验室（HPECL）柳翔教授提出，自2008年开始由HPECL研发，期间曾得到诺基亚研究院（中国）的资助</p>
+								<h5>part one.</h5>
+							</div>
+							<div class="testimonial-info">
+								<p><span>" </span> 智能空间门户通过分析进入空间内用户本身、所处环境以及周边人群的情景数据（如计划安排、行为习惯和心理状态，地理位置、环境状况、时间、周边物品状况等），感知用户意图，从而自发地为其提供所需要的信息和服务。它将提供一种全新的用户体验，使空间内的用户自发地享受所需要的服务。</p>
+								<h5>part two.</h5>
+							</div>
+							<div class="testimonial-info">
+								<p><span>" </span> 智能空间门户是一个统一的、免维护的、嵌入式以及可扩展的服务软件，通过泛在网络管理由嵌入在用户所处场所（居室、办公、休闲及旅行等）的各种计算资源所组成的自治系统：智能空间。</p>
+								<h5>part 3</h5>
+							</div>
+						</div>
+							<div class="col-md-8 testimonial-grid-right wow fadeInRight animated animated" data-wow-delay="0.4s">
+							<h3>Latest Works</h3>
+								<div class="works-grids">
+								<div class="col-md-4 works-grid">
+									<img src="{% static 'images/e1.jpg' %}" class="img-responsive" alt=""/>
+								<p>智能空间门户负责空间内的服务管理、情景数据收集和共享计算资源管理。它将为居室、办公及旅行等智能空间中的用户提供一种全新的用户体验，使其随时随地享受所需要的贴心服务.</p>
+								</div>
+								<div class="col-md-4 works-grid">
+									<img src="{% static 'images/e2.jpg' %}" class="img-responsive" alt=""/>
+								<p>项目目前已完成泛在家庭服务演示系统、智能会议室服务演示系统、智能空间门户原型系统以及情景感知引擎原型系统等.</p>
+								</div>
+								<div class="col-md-4 works-grid">
+									<img src="{% static 'images/e3.jpg' %}" class="img-responsive" alt=""/>
+								<p>SmartHome系统是在智能空间门户系统的基础上进行进一步的语音交互开发。通过增加语音交互模块，提高用户的体验性.</p>
+								</div>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+</body>
+</html>
+
+
+

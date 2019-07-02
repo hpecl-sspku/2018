@@ -1,12 +1,11 @@
 # coding=utf-8
-
 import sys
 import json
 import base64
 import time
 import urllib, urllib2
 import sys
-
+import requests
 ##################################
 import pyaudio
 import wave
@@ -15,7 +14,7 @@ CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 16000
-RECORD_SECONDS = 5
+RECORD_SECONDS = 3
 WAVE_OUTPUT_FILENAME = "turnon.wav"
 
 p = pyaudio.PyAudio()
@@ -135,8 +134,10 @@ def fetch_token():
 """  TOKEN end """
 
 if __name__ == '__main__':
+    # ===================== 获取token =====================
     token = fetch_token()
 
+    # ===================== 读取录音 =====================
     speech_data = []
     with open(AUDIO_FILE, 'rb') as speech_file:
         speech_data = speech_file.read()
@@ -157,7 +158,9 @@ if __name__ == '__main__':
               'len': length
               }
     post_data = json.dumps(params, sort_keys=False)
-    # print post_data
+
+    # ===================== 语音识别 =====================
+    start = time.time()
     req = Request(ASR_URL, post_data.encode('utf-8'))
     req.add_header('Content-Type', 'application/json')
     try:
@@ -177,19 +180,16 @@ if __name__ == '__main__':
         of.write(result_str)
 
 
-    #####################################
-    #下面的部分为unit语义识别部分
-    # encoding:utf-8
-
+    # ===================== 下面的部分为unit语义识别部分 =====================
 
     # print sys.getdefaultencoding()
     reload(sys)
     sys.setdefaultencoding('utf-8')
     # print sys.getdefaultencoding()
     # client_id 为从UNIT的【发布上线】模块进入百度云创建应用后获取的API Key
-    client_id='Th4Dsp55EWkU7DZSXqGKtDwZ'
+    client_id='H5yHjMxQE5S1nZCmovt0HjIh'
     # client_secret 为从UNIT的【发布上线】模块进入百度云创建应用后获取的Secret Key
-    client_secret='p6WNSlxCkTpVt465hoeSlH8ek5TPDoWp'
+    client_secret='n6dglFW6mPs344f6fOh1Cw1q8HkR2RUG'
     host = 'https://aip.baidubce.com/oauth/2.0/token?grant_type=client_credentials&client_id='+client_id+'&client_secret='+client_secret
     # 上面的XXXXXXX 要替换成自己的API Key，YYYYYY要换成自己的Secret Key
     request = urllib2.Request(host)
@@ -209,23 +209,34 @@ if __name__ == '__main__':
     # 下面的user_id在真实应用中要是自己业务中的真实用户id、设备号、ip地址等，方便在日志分析中分析定位问题
     user_id='222333'
     # 下面要替换成自己的bot_id
-    bot_id='40296'
+    bot_id='56549'
     post_data = '{\"bot_session\":\"\",\"log_id\":\"'+log_id+'\",\"request\":{\"bernard_level\":1,\"client_session\":\"{\\\"client_results\\\":\\\"\\\", \\\"candidate_options\\\":[]}\",\"query\":\"' + query + '\",\"query_info\":{\"asr_candidates\":[],\"source\":\"KEYBOARD\",\"type\":\"TEXT\"},\"updates\":\"\",\"user_id\":\"'+user_id+'\"},\"bot_id\":'+bot_id+',\"version\":\"2.0\"}'
     request = urllib2.Request(url, post_data)
 
     request.add_header('Content-Type', 'application/Json_test;charset=UTF-8')
     response = urllib2.urlopen(request)
     content = response.read()
-    # if content:
-    #    print content
-    data = json.loads(content)
-    print '用户问: '+ query
-    print 'BOT答复: ' + data['result']['response']['action_list'][0]['say']
-    print '意图: ' + data['result']['response']['schema']['intent']
-    slots = data['result']['response']['schema']['slots']
-    # print '词槽: ' + slot[0]['name'] + " = " +slot[0]['original_word']
-    for slot in slots:
-        print '词槽: ' + slot['name'] + " = " +slot['original_word']
+    # 解析unit返回的json数据
+    if content:
+        data = json.loads(content)
+        intent =  data['result']['response']['schema']['intent']
+        # slots =  data['result']['response']['schema']['slots']
+        slots = ''
+        # for slot in slots:
+                # print '词槽: ' + slot['name'] + " = " +slot['original_word']
+        print '用户问: '+ query
+        print 'BOT答复: ' + data['result']['response']['action_list'][0]['say']
+        print '意图: ' + intent
+    # ===================== 调用Falsk API接口 =====================
+        print 'call the flask api'
+        # 下面的ip需要改成树莓派的ip
+        url = 'http://172.20.10.6:5000/unit/callback'
+        data = {'intent': intent, 'slots': slots}
+        req = requests.post(url, data)
+        print(req.text)
+    end = time.time()
+    print('time consuming {}'.format(end - start))
+
 
 
 
