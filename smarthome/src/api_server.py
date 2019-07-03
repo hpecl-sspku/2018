@@ -79,10 +79,10 @@ def callback():
 	# exp1=Response(intent,nom_word)
 	########将表征请求中意图、词槽的数据更新存储控制命令的数据库表单（若不存在则先创建）############
 	if os.path.exists("db.sqlite3"):
-		conn = sqlite3.connect("db.sqlite3")
+		conn = sqlite3.connect("./web_ui/db.sqlite3")
 		c = conn.cursor()
 	else:
-		conn = sqlite3.connect("db.sqlite3")
+		conn = sqlite3.connect("./web_ui/db.sqlite3")
 		c = conn.cursor()		
 		c.execute('''CREATE TABLE myhome_commands(ID integer NOT NULL PRIMARY KEY AUTOINCREMENT,INTENT
 		text NOT NULL ,SLOTS text NOT NULL)''')

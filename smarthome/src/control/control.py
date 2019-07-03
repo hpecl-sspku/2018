@@ -78,17 +78,15 @@ def sleeptime(hour,min,sec):
 
 def lightLoop():
     while True:
-        for i in [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80]:
+        global STOP_FLAG
+        if STOP_FLAG:
+            continue
+        for i in [0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x00]:
             writeByte(i)
             time.sleep(0.1)
-            global STOP_FLAG
-            if STOP_FLAG:
-                break
+
 
 def smartmode():
-    # conn = sqlite3.connect('/home/pi/Smarthome/Smarthome/db.sqlite3')
-    # c = conn.cursor()
-    # print ("Smartmode opened database successfulliy")
     while True:
         global AUTOFLAG
         if not AUTOFLAG:
@@ -119,10 +117,6 @@ def smartmode():
         # Repeat every 5 minute 
         time.sleep(10)
 
-        # slots = ''
-        # c.execute("UPDATE myhome_commands SET INTENT=?,SLOTS=? where ID=1",(op,slots))
-        # conn.commit()
-        # conn.close()
 
 
 
@@ -135,11 +129,11 @@ def main():
     t2.start()
 
     while True:
-        time.sleep(sleeptime(0,0,2))
+        time.sleep(sleeptime(0,0,1))
         #宣告字符串初始变量为0
 
         # 连接或创建数据库
-        conn = sqlite3.connect('../web_ui/db.sqlite3')
+        conn = sqlite3.connect('/home/pi/smarthome/web_ui/db.sqlite3')
         c = conn.cursor()
         print ("Opened database successfully")
 
@@ -185,7 +179,7 @@ def main():
                 print('close ac')
                 for i in range(len(ac_close)):
                     send(ac_close[i])
-                    # 空调关闭
+                    # 空调关闭指示灯
                 SAKS.ledrow.off_for_index(0)
 
             elif row[0]== 'AC_COLD' and row[1] == '':
@@ -230,18 +224,21 @@ def main():
                 # global STOP_FLAG
                 STOP_FLAG = True
                 print('close audio')
-                # 音响关
-                writeByte(0x00) 
+                
 
             elif row[0] == 'AUTOMODE' and row[1] == '':
                 print('smart mode')
                 global AUTOFLAG
                 AUTOFLAG = True
+                SAKS.ledrow.on_for_index(2)
+
 
             elif row[0] == 'NORMALMODE' and row[1] == '':
                 print('normal mode')
                 # global AUTOFLAG
                 AUTOFLAG = False
+                SAKS.ledrow.off_for_index(2)
+
 
             elif row[0]== 'INTENT_ERROR' and row[1] == '':
                 print('INTENT ERROR')

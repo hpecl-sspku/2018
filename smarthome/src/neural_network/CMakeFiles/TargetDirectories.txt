@@ -1,0 +1,3 @@
+/home/pi/ksq/CMakeFiles/rebuild_cache.dir
+/home/pi/ksq/CMakeFiles/edit_cache.dir
+/home/pi/ksq/CMakeFiles/SmartHome.dir

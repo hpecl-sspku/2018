@@ -1,11 +1,15 @@
 # coding=utf-8
 import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 import json
 import base64
 import time
 import urllib, urllib2
 import sys
 import requests
+import ssl
 ##################################
 import pyaudio
 import wave
@@ -16,6 +20,8 @@ CHANNELS = 1
 RATE = 16000
 RECORD_SECONDS = 3
 WAVE_OUTPUT_FILENAME = "turnon.wav"
+
+
 
 p = pyaudio.PyAudio()
 
@@ -175,7 +181,7 @@ if __name__ == '__main__':
     if (IS_PY3):
         result_str = str(result_str, 'utf-8')
     print(result_str)
-    print(json.loads(result_str)['result'][0])
+    print(json.loads(result_str)['result'][0].encode('utf-8'))
     with open("result.txt","w") as of:
         of.write(result_str)
 
@@ -183,8 +189,8 @@ if __name__ == '__main__':
     # ===================== 下面的部分为unit语义识别部分 =====================
 
     # print sys.getdefaultencoding()
-    reload(sys)
-    sys.setdefaultencoding('utf-8')
+    # reload(sys)
+    # sys.setdefaultencoding('utf-8')
     # print sys.getdefaultencoding()
     # client_id 为从UNIT的【发布上线】模块进入百度云创建应用后获取的API Key
     client_id='H5yHjMxQE5S1nZCmovt0HjIh'
@@ -194,7 +200,8 @@ if __name__ == '__main__':
     # 上面的XXXXXXX 要替换成自己的API Key，YYYYYY要换成自己的Secret Key
     request = urllib2.Request(host)
     request.add_header('Content-Type', 'application/Json_test; charset=UTF-8')
-    response = urllib2.urlopen(request)
+    gcontext = ssl._create_unverified_context()
+    response = urllib2.urlopen(request, context=gcontext)
     access_token = json.load(response)["access_token"]
     # 真实业务中要把access_token 存到redis里，不能频繁的创建access_token（频繁创建会影响性能，导致一些对话失败），access_token默认有效期为30天，要自己写定时任务在30天到期前自动更新
     # print access_token
@@ -214,7 +221,8 @@ if __name__ == '__main__':
     request = urllib2.Request(url, post_data)
 
     request.add_header('Content-Type', 'application/Json_test;charset=UTF-8')
-    response = urllib2.urlopen(request)
+    gcontext2 = ssl._create_unverified_context()
+    response = urllib2.urlopen(request, context=gcontext2)
     content = response.read()
     # 解析unit返回的json数据
     if content:
@@ -225,15 +233,15 @@ if __name__ == '__main__':
         # for slot in slots:
                 # print '词槽: ' + slot['name'] + " = " +slot['original_word']
         print '用户问: '+ query
-        print 'BOT答复: ' + data['result']['response']['action_list'][0]['say']
-        print '意图: ' + intent
+        print 'BOT答复: ' + data['result']['response']['action_list'][0]['say'].encode('utf-8')
+        print '意图: ' + intent.encode('utf-8')
     # ===================== 调用Falsk API接口 =====================
         print 'call the flask api'
         # 下面的ip需要改成树莓派的ip
         url = 'http://172.20.10.6:5000/unit/callback'
         data = {'intent': intent, 'slots': slots}
         req = requests.post(url, data)
-        print(req.text)
+        print(req.text.encode('utf-8'))
     end = time.time()
     print('time consuming {}'.format(end - start))
 

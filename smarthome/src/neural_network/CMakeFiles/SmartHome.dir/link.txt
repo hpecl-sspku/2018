@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/SmartHome.dir/SmartHome.cpp.o CMakeFiles/SmartHome.dir/home/pi/Tengine/examples/common/common.cpp.o  -o SmartHome  -L/home/pi/Tengine/install/lib -rdynamic 
