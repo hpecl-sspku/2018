@@ -78,8 +78,8 @@ def callback():
 	######创建回复类对象#######
 	# exp1=Response(intent,nom_word)
 	########将表征请求中意图、词槽的数据更新存储控制命令的数据库表单（若不存在则先创建）############
-	if os.path.exists("db.sqlite3"):
-		conn = sqlite3.connect("./web_ui/db.sqlite3")
+	if os.path.exists("/home/pi/smarthome/web_ui/db.sqlite3"):
+		conn = sqlite3.connect("/home/pi/smarthome/web_ui/db.sqlite3")
 		c = conn.cursor()
 	else:
 		conn = sqlite3.connect("./web_ui/db.sqlite3")
