@@ -12,7 +12,7 @@ api_server: 集成所用 flask api的代码
 ```
 sh environment_config.sh
 ```
-2. 进入到voc_unit/ASR-unit目录下，运行如下命令，即可开始喊语音命令：
+2. 进入到voc_unit目录下，运行如下命令，即可开始喊语音命令：
 ```
 python asrunit.py
 ```
