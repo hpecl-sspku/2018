@@ -129,7 +129,7 @@ def main():
     t2.start()
 
     while True:
-        time.sleep(sleeptime(0,0,1))
+        time.sleep(sleeptime(0,0,2))
         #宣告字符串初始变量为0
 
         # 连接或创建数据库

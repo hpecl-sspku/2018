@@ -14,6 +14,14 @@ import ssl
 import pyaudio
 import wave
 
+# ===================== 从命令行获取ip =====================
+if len(sys.argv) < 2:
+    print "pls add the ip argument !!!!"
+    exit()
+IP = sys.argv[1]
+# ===================== ============ =====================
+
+
 CHUNK = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
@@ -141,8 +149,11 @@ def fetch_token():
 
 if __name__ == '__main__':
     # ===================== 获取token =====================
-    token = fetch_token()
-
+    try: 
+        token = fetch_token()
+    except AttributeError as e:
+        print "network connect error, pls check the network."
+        exit()
     # ===================== 读取录音 =====================
     speech_data = []
     with open(AUDIO_FILE, 'rb') as speech_file:
@@ -165,6 +176,8 @@ if __name__ == '__main__':
               }
     post_data = json.dumps(params, sort_keys=False)
 
+
+
     # ===================== 语音识别 =====================
     start = time.time()
     req = Request(ASR_URL, post_data.encode('utf-8'))
@@ -184,6 +197,7 @@ if __name__ == '__main__':
     print(json.loads(result_str)['result'][0].encode('utf-8'))
     with open("result.txt","w") as of:
         of.write(result_str)
+
 
 
     # ===================== 下面的部分为unit语义识别部分 =====================
@@ -238,7 +252,7 @@ if __name__ == '__main__':
     # ===================== 调用Falsk API接口 =====================
         print 'call the flask api'
         # 下面的ip需要改成树莓派的ip
-        url = 'http://172.20.10.6:5000/unit/callback'
+        url = 'http://' + IP + ':5000/unit/callback'
         data = {'intent': intent, 'slots': slots}
         req = requests.post(url, data)
         print(req.text.encode('utf-8'))
