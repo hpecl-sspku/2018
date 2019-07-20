@@ -4,7 +4,7 @@
 	setInterval(function(){
 		$("#nodedata_content").load(location.href + " #nodedata_content>", "");
 		$("#commands_content").load(location.href + " #commands_content>", "");
-	}, 1000)
+	}, 120000)
 </script>
 <html>
 <head>
@@ -240,22 +240,36 @@
 				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
 					<div class="flip-effect right">
 					
-							<i class="glyphicon glyphicon-home"></i>
+							<i class="glyphicon glyphicon-tag"></i>
 							<h5><button class="btn6" > 制热模式</button></h5>
 					</div>
 				</div>
 				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
 					<div class="flip-effect right">
 					
-							<i class="glyphicon glyphicon-home"></i>
+							<i class="glyphicon glyphicon-sound-stereo"></i>
 							<h5><button class="btn7" > 开启音响</button></h5>
 					</div>
 				</div>
 				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
 					<div class="flip-effect right">
 					
-							<i class="glyphicon glyphicon-home"></i>
+							<i class="glyphicon glyphicon-unchecked"></i>
 							<h5><button class="btn8" > 关闭音响</button></h5>
+					</div>
+				</div>
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+					
+							<i class="glyphicon glyphicon-star"></i>
+							<h5><button class="btn9" > 开启投影仪</button></h5>
+					</div>
+				</div>
+				<div class="col-md-4 services-grids wow zoomIn animated" data-wow-delay=".5s">
+					<div class="flip-effect right">
+					
+							<i class="glyphicon glyphicon-send"></i>
+							<h5><button class="btn10" > 关闭投影仪</button></h5>
 					</div>
 				</div>
 
@@ -309,6 +323,18 @@
 						url:'/myhome/index_ajax/',
 						type:'post',
 						data:{'ac1_command':8,},})
+					})
+					$('.btn9').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':9,},})
+					})
+					$('.btn10').click(function(){
+					  $.ajax({
+						url:'/myhome/index_ajax/',
+						type:'post',
+						data:{'ac1_command':10,},})
 					})
 			</script>
 			

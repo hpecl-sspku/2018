@@ -39,6 +39,10 @@ def index_ajax(request):
 		obj = models.Commands.objects.filter(id=1).update(intent='OPEN_BOX') 
 	if temp_command == '8':
 		obj = models.Commands.objects.filter(id=1).update(intent='CLOSE_BOX') 
+	if temp_command == '9':
+		obj = models.Commands.objects.filter(id=1).update(intent='OPEN_PPT') 
+	if temp_command == '10':
+		obj = models.Commands.objects.filter(id=1).update(intent='CLOSE_PPT') 
 	return render(request, 'myhome/index.html') 
 	#return HttpResponseRedirect(reverse('index'))
 	
